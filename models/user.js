@@ -48,8 +48,9 @@ class User extends MongoModels {
             }
             results.newUser[0].password = results.passwordHash.password;
 
-            callback(null, results.newUser[0]);
+            return callback(null, results.newUser[0]);
         });
+        
     }
 
     static findByCredentials(username, password, callback) {
@@ -61,11 +62,9 @@ class User extends MongoModels {
                 const query = {
                     isActive: true
                 };
-
                 if(username.indexOf('@') > -1) {
                     query.email = username.toLowerCase();
-                }
-                else {
+                } else {
                     query.username = username.toLowerCase();
                 }
 
@@ -112,7 +111,13 @@ User.schema = Joi.object().keys({
     username: Joi.string().token().lowercase().required(),
     password: Joi.string(),
     email: Joi.string().email().lowercase().required(),
-    timeCreated: Joi.date()
+    uid: Joi.string().token(),
+    anak: Joi.array().items(Joi.object().keys({
+        id_sekolah: Joi.string(),
+        id_anak: Joi.string()
+    })),
+    timeCreated: Joi.date().timestamp()
+
 });
 
 

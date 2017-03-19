@@ -2,16 +2,14 @@ const Boom = require('boom');
 // const Joi = require('joi');
 // const User = server.plugins['hapi-mongo-models'].User;
 module.exports = {
-    path: '/api/siswa',
+    path: '/api/sekolah',
     method: 'GET',
     config: {
-        description: 'Get all data from siswa',
-        auth: 'jwt'
+        description: 'Get all data about sekolah'
     },
     handler(request, reply) {
-        const token = request.auth.credentials;
-        const User = request.server.plugins['hapi-mongo-models'].User;
-        User.find({}, (err, res) => {
+        const School = request.server.plugins['hapi-mongo-models'].School;
+        School.find({}, (err, res) => {
             if(err) {
                 return reply(Boom.badRequest('Not found'));
             }
@@ -19,3 +17,4 @@ module.exports = {
         });
     }
 };
+
