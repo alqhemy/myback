@@ -2,16 +2,14 @@ const Boom = require('boom');
 // const Joi = require('joi');
 // const User = server.plugins['hapi-mongo-models'].User;
 module.exports = {
-    path: '/api/test/siswa',
+    path: '/api/referensi/activity',
     method: 'GET',
     config: {
-        description: 'Get all data from siswa',
-        auth: 'jwt'
+        description: 'Get all topic to stream'
     },
     handler(request, reply) {
-        const token = request.auth.credentials;
-        const User = request.server.plugins['hapi-mongo-models'].User;
-        User.find({}, (err, res) => {
+        const ActivityTopic = request.server.plugins['hapi-mongo-models'].ActivityTopic;
+        ActivityTopic.find({}, (err, res) => {
             if(err) {
                 return reply(Boom.badRequest('Not found'));
             }
@@ -19,3 +17,4 @@ module.exports = {
         });
     }
 };
+

@@ -112,9 +112,13 @@ User.schema = Joi.object().keys({
     password: Joi.string(),
     email: Joi.string().email().lowercase().required(),
     uid: Joi.string().token(),
-    anak: Joi.array().items(Joi.object().keys({
+    child: Joi.array().items(Joi.object().keys({
         id_sekolah: Joi.string(),
         id_anak: Joi.string()
+    })),
+    school: Joi.array().items(Joi.object().keys({
+        id_sekolah: Joi.string(),
+        id_guru: Joi.string()
     })),
     timeCreated: Joi.date().timestamp()
 
