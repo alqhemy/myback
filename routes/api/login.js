@@ -1,5 +1,8 @@
 const Joi = require('joi');
-// const config = require('../../config.js');
+const JWT = require('jsonwebtoken');
+const config = require('../../config.js');
+
+const TOKEN_TTL = '30m';
 
 module.exports = {
     path: '/api/login',
@@ -15,15 +18,29 @@ module.exports = {
     },
     handler(request, reply) {
         const User = request.server.plugins['hapi-mongo-models'].User;
-        const username = request.payload.username;
+        const user = request.payload.username;
         const password = request.payload.password;
 
-        User.findByCredentials(username, password, (err, user) => {
+        const options = {
+            expiresIn: TOKEN_TTL
+        };
+        User.findByCredentials(user, password, (err, result) => {
             if(err) {
                 return reply(err);
             }
-            if(user) {
-                reply({ status: 'ok', data: user });
+            if(result) {
+                const session = {
+                    id: result.email,
+                    role: 'user',
+                    username: result.username
+                };
+                const token = JWT.sign(session, config.authKey, options);
+
+                const res = {
+                    token,
+                    username: request.payload.username
+                };
+                reply(res);
             } else {
                 reply({ status: 'user not found' });
             }

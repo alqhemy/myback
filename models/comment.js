@@ -9,10 +9,8 @@ class CommentEntry extends MongoModels {}
 CommentEntry.schema = Joi.object().keys({
     comment: Joi.string().required(),
     timeCreated: Joi.date().required(),
-    userCreated: Joi.object().keys({
-        id: Joi.string().required(),
-        name: Joi.string().lowercase().required()
-    }).required()
+    id: Joi.string().required(),
+    name: Joi.string().lowercase().required()
 });
 
 

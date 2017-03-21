@@ -8,14 +8,15 @@ module.exports = {
         description: 'Get all data abaout student',
         validate: {
             payload: {
-                id: Joi.string()
+                filter: Joi.object()
             }
         }
     },
     handler(request, reply) {
         const Student = request.server.plugins['hapi-mongo-models'].Student;
-        const id = request.payload.id.toString();
-        Student.find({ id_sekolah: id }, {}, (err, res) => {
+        const filter = request.payload.filter;
+        
+        Student.find(filter, {}, (err, res) => {
             if(err) {
                 return reply(Boom.badRequest('Not found'));
             }

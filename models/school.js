@@ -1,17 +1,7 @@
 const Joi = require('joi');
 const MongoModels = require('mongo-models');
 
-class School extends MongoModels {
-    static create(document, callback) {
-        const self = this;
-        self.insertOne(document, (err, results) => {
-            if(err) {
-                return callback(err);
-            }
-            return callback(null, results.newUser[0]);
-        });
-    }
-}
+class School extends MongoModels {}
 
 School.collection = 'schools';
 School.schema = Joi.object().keys({
@@ -24,5 +14,6 @@ School.schema = Joi.object().keys({
     timeCreated: Joi.date().required()
 
 });
+
 
 module.exports = School;
