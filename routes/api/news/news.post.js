@@ -3,7 +3,7 @@ const Joi = require('joi');
 // const Async = require('async');
 
 module.exports = {
-    path: '/api/sekolah/news',
+    path: 'web/api/sekolah/news',
     method: 'POST',
     config: {
         description: 'Post new stream topic',

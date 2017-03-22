@@ -5,7 +5,7 @@ const config = require('../../config.js');
 const TOKEN_TTL = '30m';
 
 module.exports = {
-    path: '/api/login',
+    path: 'web/api/login',
     method: 'POST',
     config: {
         description: 'User Login',

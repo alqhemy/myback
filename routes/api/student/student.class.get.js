@@ -2,7 +2,7 @@ const Boom = require('boom');
 const Joi = require('joi');
 
 module.exports = {
-    path: '/api/sekolah/{id}/siswa/{room}',
+    path: 'web/api/sekolah/{id}/siswa/{room}',
     method: 'GET',
     config: {
         description: 'Get all data by school and class',
