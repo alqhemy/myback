@@ -2,7 +2,7 @@ const Boom = require('boom');
 const Joi = require('joi');
 // const User = server.plugins['hapi-mongo-models'].User;
 module.exports = {
-    path: 'web/api/sekolah/guru',
+    path: '/web/api/sekolah/guru',
     method: 'POST',
     config: {
         description: 'Get all data about teacher',

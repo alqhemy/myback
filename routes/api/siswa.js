@@ -2,7 +2,7 @@ const Boom = require('boom');
 // const Joi = require('joi');
 // const User = server.plugins['hapi-mongo-models'].User;
 module.exports = {
-    path: 'web/api/test/siswa',
+    path: '/web/api/test/siswa',
     method: 'GET',
     config: {
         description: 'Get all data from siswa',

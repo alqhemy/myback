@@ -2,7 +2,7 @@ const Boom = require('boom');
 const Joi = require('joi');
 
 module.exports = {
-    path: 'web/api/sekolah/siswa',
+    path: '/web/api/sekolah/siswa',
     method: 'POST',
     config: {
         description: 'Get all data abaout student',

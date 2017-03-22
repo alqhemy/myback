@@ -3,7 +3,7 @@ const Boom = require('boom');
 // const config = require('../../config.js');
 
 module.exports = {
-    path: 'web/api/user/{id}',
+    path: '/web/api/user/{id}',
     method: 'GET',
     config: {
         description: 'Get data user by id',

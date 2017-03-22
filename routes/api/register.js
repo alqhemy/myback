@@ -3,7 +3,7 @@ const JWT = require('jsonwebtoken');
 const config = require('../../config.js');
 
 module.exports = {
-    path: 'web/api/register',
+    path: '/web/api/register',
     method: 'POST',
     config: {
         description: 'User registratrion',
