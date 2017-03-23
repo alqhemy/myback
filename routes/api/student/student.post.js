@@ -5,6 +5,7 @@ module.exports = {
     path: '/web/api/sekolah/siswa',
     method: 'POST',
     config: {
+        auth: 'jwt',
         description: 'Get all data abaout student',
         validate: {
             payload: {
