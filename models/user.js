@@ -25,7 +25,7 @@ class User extends MongoModels {
         });
     }
 
-    static create(username, password, email, callback) {
+    static create(email, password, callback) {
         const self = this;
 
         Async.auto({
@@ -34,7 +34,6 @@ class User extends MongoModels {
 
                 const document = {
                     isActive: true,
-                    username: username.toLowerCase(),
                     password: results.passwordHash.hash,
                     email: email.toLowerCase(),
                     timeCreated: new Date()
@@ -108,17 +107,20 @@ User.collection = 'users';
 User.schema = Joi.object().keys({
     _id: Joi.object(),
     isActive: Joi.boolean().default(true),
-    username: Joi.string().token().lowercase().required(),
     password: Joi.string(),
     email: Joi.string().email().lowercase().required(),
+    name: Joi.string(),
     uid: Joi.string().token(),
+    avatar: Joi.object(),
     child: Joi.array().items(Joi.object().keys({
-        id_sekolah: Joi.string(),
-        id_anak: Joi.string()
+        sekolah: Joi.string(),
+        anak: Joi.string(),
+        nis: Joi.string()
     })),
     school: Joi.array().items(Joi.object().keys({
-        id_sekolah: Joi.string(),
-        id_guru: Joi.string()
+        sekolah: Joi.string(),
+        nama: Joi.string(),
+        id: Joi.string()
     })),
     timeCreated: Joi.date().timestamp()
 

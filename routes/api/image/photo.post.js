@@ -1,12 +1,10 @@
 const Boom = require('boom');
 const fs = require('fs');
 const uuid = require('uuid');
-const config = require('../../../config.js');
-const Joi = require('joi');
-// const User = server.plugins['hapi-mongo-models'].User;
+
 module.exports = {
-    path: '/web/api/photo',
-    method: 'POST',
+    path: '/web/api/photo/{id}',
+    method: 'PUT',
     config: {
         description: 'Get all topic to stream',
         payload: {
@@ -15,13 +13,14 @@ module.exports = {
         }
     },
     handler(request, reply) {
+        const note = request.server.plugins['hapi-mongo-models'].NoteEntry;
         const data = request.payload;
-        const file = data['avatar'];
+        const file = data.photo;
         const location = 'uploads/photos';
         if(!file) {
             reply(Boom.badData('no file'));
         } else {
-            const original = file.hapi.filename;
+            const idPost = request.params.id.toString();
             const filename = uuid.v1();
             const path = `${location}/${filename}`;
             const fileStream = fs.createWriteStream(path);
@@ -33,15 +32,24 @@ module.exports = {
 
                 file.pipe(fileStream);
 
-                file.on('end', (err) => {
+                file.on('end', () => {
                     const fileDetails = {
-                        fieldname: file.hapi.name,
-                        originalname: original,
                         filename,
-                        mimetype: file.hapi.headers['content-type'],
-                        destination: location
+                        location
                     };
-                    reply(fileDetails);
+                    resolve(fileDetails);
+                });
+            });
+            done.then((result) => {
+                const update = {
+                    $push: { photo: { filename: result.filename, location: result.location } }
+                };
+                note.findByIdAndUpdate(idPost, update, (err, res) => {
+                    if(err) {
+                        reply(err);
+                    } else {
+                        reply(res);
+                    }
                 });
             });
         }

@@ -42,7 +42,7 @@ module.exports = {
                 };
                 reply(res);
             } else {
-                reply({ status: 'user not found' });
+                reply({ status: 'User account is not active' });
             }
         });
     }

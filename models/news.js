@@ -20,10 +20,11 @@ NoteEntry.schema = Joi.object().keys({
     id_sekolah: Joi.string().required(),
     // students: Joi.array().items(Activity.schema),
     comment: Joi.array().items(CommentEntry.schema),
-    images: Joi.array().items(Joi.object().keys({
-        image: Joi.string(),
+    photos: Joi.array().items(Joi.object().keys({
         title: Joi.string(),
-        description: Joi.string()
+        description: Joi.string(),
+        image: Joi.string(),
+        location: Joi.string()
     })),
     video: Joi.array().items(Joi.object().keys({
         image: Joi.string(),

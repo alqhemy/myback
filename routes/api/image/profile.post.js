@@ -5,23 +5,29 @@ const config = require('../../../config.js');
 const Joi = require('joi');
 // const User = server.plugins['hapi-mongo-models'].User;
 module.exports = {
-    path: '/web/api/profile',
-    method: 'POST',
+    path: '/web/api/profile/{id}',
+    method: 'PUT',
     config: {
         description: 'Get all topic to stream',
-        payload: {
-            output: 'stream',
-            allow: 'multipart/form-data'
+        validate: {
+            params: {
+                id: Joi.string()
+            },
+            payload: {
+                output: 'stream',
+                allow: 'multipart/form-data'
+            }
         }
     },
     handler(request, reply) {
+        const User = request.server.plugins['hapi-mongo-models'].User;
+        const idUser = request.params.id.toString();
         const data = request.payload;
         const file = data.avatar;
         const location = 'uploads/avatar';
         if(!file) {
             reply(Boom.badData('no file'));
         } else {
-            const original = file.hapi.filename;
             const filename = uuid.v1();
             const path = `${location}/${filename}`;
             const fileStream = fs.createWriteStream(path);
@@ -33,27 +39,27 @@ module.exports = {
 
                 file.pipe(fileStream);
 
-                file.on('end', (err) => {
+                file.on('end', () => {
                     const fileDetails = {
-                        fieldname: file.hapi.name,
-                        originalname: original,
                         filename,
-                        mimetype: file.hapi.headers['content-type'],
-                        destination: location
+                        location
                     };
-                    reply(fileDetails);
+                    resolve(fileDetails);
                 });
             });
-
-            // reply(fileDetails);
+            done.then((result) => {
+                const update = {
+                    $set: { avatar: { filename: result.filename, location: result.location } }
+                };
+                User.findByIdAndUpdate(idUser, update, (err, res) => {
+                    if(err) {
+                        reply(err);
+                    } else {
+                        reply(res);
+                    }
+                });
+            });
         }
-        // const ActivityTopic = request.server.plugins['hapi-mongo-models'].ActivityTopic;
-        // ActivityTopic.find({}, (err, res) => {
-        //     if(err) {
-        //         return reply(Boom.badRequest('Not found'));
-        //     }
-        //     reply(res);
-        // });
     }
 };
 

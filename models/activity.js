@@ -9,7 +9,7 @@ Activity.collection = 'activities';
 
 Activity.schema = Joi.object().keys({
     _id: Joi.object(),
-    id_user: Joi.string().required(),
+    student: Joi.string().required(),
     id_topic: Joi.string().required(),
     read: Joi.bool().default(false),
     timeCreated: Joi.date().required(),

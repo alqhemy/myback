@@ -1,5 +1,5 @@
 const Boom = require('boom');
-// const Joi = require('joi');
+const Joi = require('joi');
 // const User = server.plugins['hapi-mongo-models'].User;
 module.exports = {
     path: '/web/api/sekolah/news',
