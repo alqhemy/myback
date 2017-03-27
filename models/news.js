@@ -5,37 +5,37 @@ const CommentEntry = require('./comment');
 
 class NoteEntry extends MongoModels {}
 
-NoteEntry.collection = 'notes';
+NoteEntry.collection = 'news';
 
 NoteEntry.schema = Joi.object().keys({
     _id: Joi.object(),
+    sekolah: Joi.string().required(),
     topic: Joi.string().required(),
-    description: Joi.string().required(),
     category: Joi.string(),
-    tag: Joi.string(),
+    title: Joi.string(),
+    description: Joi.string().required(),
     publish: Joi.bool().default(false),
     timeCreated: Joi.date().required(),
-    username: Joi.string(),
-    id_user: Joi.string().required(),
-    id_sekolah: Joi.string().required(),
-    // students: Joi.array().items(Activity.schema),
-    comment: Joi.array().items(CommentEntry.schema),
+    user: Joi.object().keys({
+        id: Joi.string(),
+        name: Joi.string(),
+        title: Joi.string()
+    }),
+    comments: Joi.array().items(CommentEntry.schema),
+    activity: Joi.array().items(),
     photos: Joi.array().items(Joi.object().keys({
-        title: Joi.string(),
-        description: Joi.string(),
         image: Joi.string(),
         location: Joi.string()
     })),
-    video: Joi.array().items(Joi.object().keys({
-        image: Joi.string(),
-        title: Joi.string(),
-        description: Joi.string()
+    videos: Joi.array().items(Joi.object().keys({
+        video: Joi.string(),
+        location: Joi.string()
     }))
 
 });
 
 NoteEntry.indexes = [
-    { key: { name: 1 } },
-    { key: { email: -1 } }
+    { key: { 'user.id': 1 } },
+    { key: { 'user.name': 1 } }
 ];
 module.exports = NoteEntry;

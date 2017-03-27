@@ -1,6 +1,7 @@
 const Joi = require('joi');
+const Boom = require('Boom');
 const JWT = require('jsonwebtoken');
-const config = require('../../config.js');
+const config = require('../../../config.js');
 
 const TOKEN_TTL = '30m';
 
@@ -18,27 +19,30 @@ module.exports = {
     },
     handler(request, reply) {
         const User = request.server.plugins['hapi-mongo-models'].User;
-        const user = request.payload.username;
-        const password = request.payload.password;
+        const email = request.payload.username;
+        const uid = request.payload.password;
 
         const options = {
             expiresIn: TOKEN_TTL
         };
-        User.findByCredentials(user, password, (err, result) => {
+        User.find({ email, uid }, (err, result) => {
             if(err) {
-                return reply(err);
+                reply(err);
             }
             if(result) {
+                if(result.length < 1) {
+                    return reply(Boom.badData('User not found'));
+                }
+                const id = result[0]._id.toString();
                 const session = {
-                    id: result.email,
-                    role: 'user',
-                    username: result.username
+                    active: result.isActive,
+                    user: result.email,
+                    id
                 };
-                const token = JWT.sign(session, config.authKey, options);
+                const token = JWT.sign(session, config.authKey);
 
                 const res = {
-                    token,
-                    username: request.payload.username
+                    token
                 };
                 reply(res);
             } else {

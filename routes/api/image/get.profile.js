@@ -7,13 +7,6 @@ const path = require('path');
 module.exports = {
     path: '/web/api/profile/{id}',
     method: 'GET',
-    // config: {
-    //     validate: {
-    //         params: {
-    //             id: Joi.string()
-    //         }
-    //     }
-    // },
     handler: (request, reply) => {
         const UPLOAD_PATH = 'uploads/';
         const type = 'image/jpeg';

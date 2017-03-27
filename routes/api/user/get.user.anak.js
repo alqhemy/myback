@@ -20,7 +20,7 @@ module.exports = {
             if(err) {
                 reply(Boom.badData(err));
             } else {
-                reply({ data: { anak: result.anak } });
+                reply({ anak: result.anak } );
             }
         });
     }

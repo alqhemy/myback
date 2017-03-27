@@ -19,6 +19,7 @@ Student.collection = 'students';
 
 Student.schema = Joi.object().keys({
     _id: Joi.string().required(),
+    sekolah: Joi.string().required(),
     nama: Joi.string().required(),
     nis: Joi.string().required(),
     kelas: Joi.string().required(),
@@ -31,7 +32,6 @@ Student.schema = Joi.object().keys({
     telp1: Joi.string(),
     telp2: Joi.string(),
     telp3: Joi.string(),
-    id_sekolah: Joi.string(),
     timeCreated: Joi.date().required()
 });
 

@@ -15,8 +15,8 @@ module.exports = {
     },
     handler(request, reply) {
         const User = request.server.plugins['hapi-mongo-models'].User;
-        const _id = request.params.id.toString();
-        User.findById(_id, (err, result) => {
+        const id = request.params.id.toString();
+        User.findById(id, (err, result) => {
             if(err) {
                 reply(Boom.badData(err));
             } else {
