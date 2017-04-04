@@ -10,7 +10,9 @@ module.exports = {
         validate: {
             payload: {
                 uid: Joi.string().min(3).max(80),
-                email: Joi.string().email()
+                email: Joi.string().email(),
+                name: Joi.string(),
+                telp: Joi.string()
             }
         }
     },
@@ -20,6 +22,8 @@ module.exports = {
             isActive: true,
             email: request.payload.email,
             uid: request.payload.uid,
+            name: request.payload.name,
+            telp: request.payload.telp,
             timeCreated: new Date()
 
         };
