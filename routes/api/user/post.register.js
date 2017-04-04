@@ -9,7 +9,7 @@ module.exports = {
         description: 'User registratrion',
         validate: {
             payload: {
-                uid: Joi.string().min(3).max(80),
+                password: Joi.string().min(3).max(80),
                 email: Joi.string().email(),
                 name: Joi.string(),
                 telp: Joi.string()
@@ -21,7 +21,7 @@ module.exports = {
         const register = {
             isActive: true,
             email: request.payload.email,
-            uid: request.payload.uid,
+            uid: request.payload.password,
             name: request.payload.name,
             telp: request.payload.telp,
             timeCreated: new Date()
