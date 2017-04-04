@@ -29,7 +29,7 @@ module.exports = {
 
         Async.auto({
             user(callback) {
-                User.findById(id,(err, results) => {
+                User.findById(id, (err, results) => {
                     callback(null, results);
                 });
             },

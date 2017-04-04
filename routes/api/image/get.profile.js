@@ -5,7 +5,7 @@ const path = require('path');
 // const Async = require('async');
 
 module.exports = {
-    path: '/web/api/profile/{id}',
+    path: '/web/api/profile/avatar/{id}',
     method: 'GET',
     handler: (request, reply) => {
         const UPLOAD_PATH = 'uploads/';

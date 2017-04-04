@@ -12,20 +12,15 @@ module.exports = {
         description: 'User Login',
         validate: {
             payload: {
-                username: Joi.string().required().lowercase(),
                 password: Joi.string().min(6).max(80)
             }
         }
     },
     handler(request, reply) {
         const User = request.server.plugins['hapi-mongo-models'].User;
-        const email = request.payload.username;
         const uid = request.payload.password;
 
-        const options = {
-            expiresIn: TOKEN_TTL
-        };
-        User.find({ email, uid }, (err, result) => {
+        User.find({ uid }, (err, result) => {
             if(err) {
                 reply(err);
             }

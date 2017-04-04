@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = {
-    path: '/web/api/photo/{id}',
+    path: '/web/api/news/photo/{id}',
     method: 'GET',
     handler: (request, reply) => {
         const UPLOAD_PATH = 'uploads/photos';

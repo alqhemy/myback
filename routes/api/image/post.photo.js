@@ -3,7 +3,7 @@ const fs = require('fs');
 const uuid = require('uuid');
 
 module.exports = {
-    path: '/web/api/photo/{id}',
+    path: '/web/api/news/{id}/photo',
     method: 'PUT',
     config: {
         description: 'Get all topic to stream',

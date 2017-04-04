@@ -21,12 +21,13 @@ module.exports = {
             email: request.payload.email,
             uid: request.payload.uid,
             timeCreated: new Date()
+
         };
         User.insertOne(register, (err, user) => {
             if(err) {
                 reply(err);
             } else {
-                const id = user._id.toString();
+                const id = user._id;
                 const session = {
                     active: true,
                     user: user.email,
@@ -34,6 +35,7 @@ module.exports = {
                 };
                 const auth = JWT.sign(session, config.authKey);
                 reply({ token: auth });
+                // reply(user);
             }
         });
     }
