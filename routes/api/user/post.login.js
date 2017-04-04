@@ -3,7 +3,7 @@ const Boom = require('Boom');
 const JWT = require('jsonwebtoken');
 const config = require('../../../config.js');
 
-const TOKEN_TTL = '30m';
+// const TOKEN_TTL = '30m';
 
 module.exports = {
     path: '/web/api/login',
