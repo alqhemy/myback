@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const Boom = require('Boom');
+const Boom = require('boom');
 const JWT = require('jsonwebtoken');
 const config = require('../../../config.js');
 
