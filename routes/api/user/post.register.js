@@ -9,39 +9,62 @@ module.exports = {
         description: 'User registratrion',
         validate: {
             payload: {
-                password: Joi.string().min(3).max(80),
+                uid: Joi.string().min(3).max(80),
                 email: Joi.string().email(),
-                name: Joi.string(),
-                telp: Joi.string()
+                name: Joi.string()
             }
         }
     },
     handler(request, reply) {
         const User = request.server.plugins['hapi-mongo-models'].User;
+        const usermail = request.payload.email;
         const register = {
             isActive: true,
             email: request.payload.email,
-            uid: request.payload.password,
+            uid: request.payload.uid,
             name: request.payload.name,
-            telp: request.payload.telp,
             timeCreated: new Date()
 
         };
-        User.insertOne(register, (err, user) => {
-            if(err) {
-                reply(err);
-            } else {
-                const id = user._id;
+        User.find({ email: usermail }, (err, res) => {
+            if(res.length > 0) {
                 const session = {
                     active: true,
-                    user: user.email,
-                    id
+                    user: res[0].email,
+                    id: res[0]._id
                 };
                 const auth = JWT.sign(session, config.authKey);
-                reply({ token: auth });
-                // reply(user);
+                const login = {
+                    email: res[0].email,
+                    uid: res[0].uid,
+                    name: res[0].name,
+                    token: auth
+                };
+                reply(login);
+            } else {
+                User.insertOne(register, (er, user) => {
+                    if(err) {
+                        reply(er);
+                    } else {
+                        const session = {
+                            active: true,
+                            user: user.email,
+                            id : user._id
+                        };
+                        const auth = JWT.sign(session, config.authKey);
+                        const registered = {
+                            email: request.payload.email,
+                            uid: request.payload.password,
+                            name: request.payload.name,
+                            token: auth
+                        };
+                        reply(registered);
+                        // reply(user);
+                    }
+                });
             }
         });
+        
     }
 };
 

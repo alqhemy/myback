@@ -37,6 +37,9 @@ module.exports = {
                 const token = JWT.sign(session, config.authKey);
 
                 const res = {
+                    active: result[0].isActive,
+                    user: result[0].email,
+                    id,
                     token
                 };
                 reply(res);

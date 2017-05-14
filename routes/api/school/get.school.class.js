@@ -2,7 +2,7 @@ const Boom = require('boom');
 // const Joi = require('joi');
 // const User = server.plugins['hapi-mongo-models'].User;
 module.exports = {
-    path: '/web/api/sekolah',
+    path: '/web/api/sekolah/{id}/{nik}',
     method: 'GET',
     config: {
         description: 'Get all data about sekolah',
@@ -14,7 +14,7 @@ module.exports = {
             if(err) {
                 return reply(Boom.badRequest('Not found'));
             }
-            reply({ data: res });
+            reply(res);
         });
     }
 };

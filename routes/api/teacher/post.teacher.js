@@ -19,7 +19,7 @@ module.exports = {
             if(err) {
                 return reply(Boom.badRequest('Not found'));
             }
-            reply(res);
+            reply({ data: res });
         });
     }
 };

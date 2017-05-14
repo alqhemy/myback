@@ -17,7 +17,6 @@ module.exports = {
             },
             payload: {
                 comment: Joi.string().required()
-               
             }
         }
     },

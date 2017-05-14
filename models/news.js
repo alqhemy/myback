@@ -2,7 +2,6 @@ const Joi = require('joi');
 const MongoModels = require('mongo-models');
 const CommentEntry = require('./comment');
 
-
 class NoteEntry extends MongoModels {}
 
 NoteEntry.collection = 'news';
@@ -16,11 +15,9 @@ NoteEntry.schema = Joi.object().keys({
     description: Joi.string().required(),
     publish: Joi.bool().default(false),
     timeCreated: Joi.date().required(),
-    user: Joi.object().keys({
-        id: Joi.string(),
-        name: Joi.string(),
-        title: Joi.string()
-    }),
+    userId: Joi.string(),
+    userName: Joi.string(),
+    userTitle: Joi.string(),
     comments: Joi.array().items(CommentEntry.schema),
     activity: Joi.array().items(),
     photos: Joi.array().items(Joi.object().keys({
@@ -31,7 +28,6 @@ NoteEntry.schema = Joi.object().keys({
         video: Joi.string(),
         location: Joi.string()
     }))
-
 });
 
 NoteEntry.indexes = [

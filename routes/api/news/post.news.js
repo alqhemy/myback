@@ -47,11 +47,9 @@ module.exports = {
                 description: request.payload.description,
                 category: request.payload.category,
                 publish: request.payload.publish,
-                user: {
-                    id: results.user.email,
-                    name: results.teacher.nama,
-                    title: results.teacher.jabatan
-                },
+                userId: results.user.email,
+                userName: results.teacher.nama,
+                userTitle: results.teacher.jabatan,
                 timeCreated: new Date()
             };
             News.insertOne(document, (er, news) => {

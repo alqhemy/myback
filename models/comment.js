@@ -1,8 +1,9 @@
-'use strict';
 const Joi = require('joi');
 const MongoModels = require('mongo-models');
 
 class CommentEntry extends MongoModels {}
+
+// CommentEntry.collection = 'comments';
 
 CommentEntry.schema = Joi.object().keys({
     comment: Joi.string().required(),
@@ -10,6 +11,5 @@ CommentEntry.schema = Joi.object().keys({
     name: Joi.string().lowercase().required(),
     title: Joi.string()
 });
-
 
 module.exports = CommentEntry;

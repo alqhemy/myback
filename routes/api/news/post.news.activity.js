@@ -7,6 +7,7 @@ module.exports = {
     method: 'POST',
     config: {
         description: 'Post new stream topic',
+        auth: 'jwt',
         validate: {
             params: {
                 id: Joi.string()
@@ -24,6 +25,8 @@ module.exports = {
     handler(request, reply) {
         const Activity = request.server.plugins['hapi-mongo-models'].Activity;
         const News = request.server.plugins['hapi-mongo-models'].NoteEntry;
+        const decode = JWT.verify(request.auth.token, config.authKey);
+        const id = decode.id;
 
         Async.auto({
             activity(callback) {
@@ -40,12 +43,12 @@ module.exports = {
                 });
             }
         }, (err, result) => {
+
             const activity = result.activity[0];
             const id = activity._id.toString();
-            // reply(result);
+            reply(result);
             const update = {
                 $push: { activity: {
-                    activity_id: id,
                     nis: activity.nis,
                     name: activity.name }
                 }

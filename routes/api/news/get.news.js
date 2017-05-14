@@ -26,13 +26,15 @@ module.exports = {
             sekolah: ['user', function (results, callback) {
                 const test = results.user.child;
                 const sekolah = [];
-                test.forEach((element) => {
-                    sekolah.push(element.sekolah);
-                }, this);
-                
+                if(test){
+
+                    test.forEach((element) => {
+                        sekolah.push(element.sekolah);
+                    }, this);
+                }
                 if(results.user.teacher) {
                     const guru = results.user.teacher;
-                    Teacher.findById(guru, (err, res) => {
+                    Teacher.findById(guru.id, (err, res) => {
                         sekolah.push(res.sekolah);
                     });
                 }
@@ -42,13 +44,16 @@ module.exports = {
         }, (err, results) => {
             const find = {
                 sekolah: { $in: results.sekolah },
-                publish: true
+                publish: true,
+                timeCreated: {
+                    $gte: (new Date((new Date()).getTime() - (90 * 24 * 60 * 60 * 1000)))
+                }
             };
             News.find(find, (er, res) => {
                 if(err) {
                     reply(Boom.badData(er));
                 } else {
-                    reply(res);
+                    reply({ news: res });
                 }
             });
         });
