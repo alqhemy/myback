@@ -23,6 +23,8 @@ module.exports = {
             email: request.payload.email,
             uid: request.payload.uid,
             name: request.payload.name,
+            child: null,
+            teacher: null,
             timeCreated: new Date()
 
         };
