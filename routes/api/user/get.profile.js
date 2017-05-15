@@ -17,11 +17,11 @@ module.exports = {
         const Student = request.server.plugins['hapi-mongo-models'].Student;
         const Teacher = request.server.plugins['hapi-mongo-models'].Teacher;
         const decode = JWT.verify(request.auth.token, config.authKey);
-        const id = decode.email;
+        const id = decode.id;
 
         Async.auto({
             user(callback) {
-                User.find({ email: id }, (err, results) => {
+                User.findById(id, (err, results) => {
                     callback(null, results);
                 });
             },

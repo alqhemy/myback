@@ -30,7 +30,8 @@ module.exports = {
             if(res.length > 0) {
                 const session = {
                     active: true,
-                    user: request.payload.email
+                    user: res[0].email,
+                    id: res[0]._id
                 };
                 const auth = JWT.sign(session, config.authKey);
                 const login = {
@@ -47,7 +48,8 @@ module.exports = {
                     } else {
                         const session = {
                             active: true,
-                            user: request.payload.email
+                            user: user.email,
+                            id : user._id
                         };
                         const auth = JWT.sign(session, config.authKey);
                         const registered = {
