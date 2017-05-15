@@ -18,7 +18,10 @@ Account.schema = Joi.object().keys({
         sekolah: Joi.string(),
         nis: Joi.string()
     })),
-    teacher: Joi.string(),
+    teacher: Joi.object().keys({
+        id: Joi.string(),
+        sekolah: Joi.string()
+    }),
     timeCreated: Joi.date().timestamp()
 });
 
