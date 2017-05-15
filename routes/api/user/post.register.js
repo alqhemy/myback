@@ -46,15 +46,15 @@ module.exports = {
                     if(err) {
                         reply(er);
                     } else {
-                        const session = {
+                        const reg = {
                             active: true,
-                            user: user.email,
-                            id : user._id
+                            user: user[0].email,
+                            id : user[0]._id
                         };
-                        const auth = JWT.sign(session, config.authKey);
+                        const auth = JWT.sign(reg, config.authKey);
                         const registered = {
-                            email: request.payload.email,
-                            uid: request.payload.password,
+                            email: user[0].email,
+                            uid: request.payload.uid,
                             name: request.payload.name,
                             token: auth
                         };
