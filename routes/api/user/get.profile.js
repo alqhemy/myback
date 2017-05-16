@@ -49,8 +49,9 @@ module.exports = {
             }],
             teacher: ['user', (results, callback) => {
                 if(results.user.teacher) {
+                    
                     Teacher.findById(results.user.teacher.id, (err, res) => {
-                        callback(null, res);
+                        callback(null, [res]);
                     });
                 } else {
                     callback(null, []);

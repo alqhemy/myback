@@ -34,9 +34,10 @@ module.exports = {
                 }
                 if(results.user.teacher) {
                     const guru = results.user.teacher;
-                    Teacher.findById(guru.id, (err, res) => {
-                        sekolah.push(res.sekolah);
-                    });
+                    // Teacher.findById(guru.id, (err, res) => {
+                    sekolah.push(guru.sekolah);
+                    // });
+                    // reply(guru);
                 }
                 callback(null, sekolah);
             }]
