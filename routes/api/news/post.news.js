@@ -34,7 +34,7 @@ module.exports = {
                 });
             },
             teacher: ['user', function (results, callback) {
-                Teacher.findById(results.user.teacher, (err, res) => {
+                Teacher.findById(results.user.teacher.id, (err, res) => {
                     callback(null, res);
                 });
             }]
@@ -56,7 +56,7 @@ module.exports = {
                 if(err) {
                     reply(Boom.badData('Error, data not save'));
                 } else {
-                    reply(news);
+                    reply(news[0]);
                 }
             });
         });
