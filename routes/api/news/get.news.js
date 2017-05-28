@@ -13,7 +13,6 @@ module.exports = {
     handler(request, reply) {
         const News = request.server.plugins['hapi-mongo-models'].NoteEntry;
         const User = request.server.plugins['hapi-mongo-models'].User;
-        const Teacher = request.server.plugins['hapi-mongo-models'].Teacher;
         const decode = JWT.verify(request.auth.token, config.authKey);
         const id = decode.id;
 
@@ -27,7 +26,6 @@ module.exports = {
                 const test = results.user.child;
                 const sekolah = [];
                 if(test){
-
                     test.forEach((element) => {
                         sekolah.push(element.sekolah);
                     }, this);

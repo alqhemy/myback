@@ -13,11 +13,18 @@ module.exports = {
                 id: Joi.string()
             },
             payload: {
-                nis: Joi.string().required(),
-                name: Joi.string().required(),
                 activity: Joi.array().items(Joi.object().keys({
-                    title: Joi.string(),
-                    description: Joi.string()
+                    nis: Joi.string().required(),
+                    name: Joi.string().required(),
+                    school: Joi.string().required(),
+                    news: Joi.string().required(),
+                    kelas: Joi.string().required(),
+                    kegiatan: Joi.string().required(),
+                    read: Joi.bool(),
+                    aktifitas: Joi.array().items(Joi.object().keys({
+                        title: Joi.string(),
+                        description: Joi.string()
+                    }))
                 }))
             }
         }
@@ -30,15 +37,8 @@ module.exports = {
 
         Async.auto({
             activity(callback) {
-                const update = {
-                    nis: request.payload.nis,
-                    name: request.payload.name,
-                    news: request.params.id,
-                    activity: request.payload.activity,
-                    read: false,
-                    timeCreated: new Date()
-                };
-                Activity.insertOne(update, (err, res) => {
+                const update = request.payload.activity;
+                Activity.insertMany(update, (err, res) => {
                     callback(null, res);
                 });
             }

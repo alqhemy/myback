@@ -9,12 +9,15 @@ Activity.collection = 'activities';
 
 Activity.schema = Joi.object().keys({
     _id: Joi.object(),
-    news_id: Joi.string().required(),
+    newsId: Joi.string().required(),
     nis: Joi.string().required(),
+    kelas: Joi.string().required(),
+    school: Joi.string().required(),
     name: Joi.string().required(),
+    kegiatan: Joi.string().required(),
     read: Joi.bool().default(false),
     timeCreated: Joi.date().required(),
-    activity: Joi.array().items(Joi.object().keys({
+    aktifitas: Joi.array().items(Joi.object().keys({
         title: Joi.string().required(),
         description: Joi.string().required()
     })),
