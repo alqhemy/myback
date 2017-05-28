@@ -18,8 +18,8 @@ Activity.schema = Joi.object().keys({
     read: Joi.bool().default(false),
     timeCreated: Joi.date().required(),
     aktifitas: Joi.array().items(Joi.object().keys({
-        title: Joi.string().required(),
-        description: Joi.string().required()
+        title: Joi.string(),
+        description: Joi.string()
     })),
     comments: Joi.array().items(CommentEntry.schema)
 });

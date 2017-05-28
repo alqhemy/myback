@@ -14,19 +14,16 @@ module.exports = {
             payload: {
                 title: Joi.string().required(),
                 description: Joi.string().required(),
-                topic: Joi.string().default('Public'),
-                category: Joi.string(),
+                topic: Joi.string().default('Umum'),
+                category: Joi.string().default('Informasi'),
                 publish: Joi.bool().default(false),
                 aktifitas: Joi.array().items(Joi.object().keys({
                     nis: Joi.string().required(),
                     kelas: Joi.string().required(),
                     school: Joi.string().required(),
                     name: Joi.string().required(),
-                    kegiatan: Joi.string().required(),
-                    aktifitas: Joi.array().items(Joi.object().keys({
-                        title: Joi.string(),
-                        description: Joi.string()
-                    }))
+                    kegiatan: Joi.string(),
+                    aktifitas: Joi.array().items(Joi.object().keys())
                 }))
             }
         }
