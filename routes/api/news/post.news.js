@@ -24,8 +24,8 @@ module.exports = {
                     name: Joi.string().required(),
                     kegiatan: Joi.string().required(),
                     aktifitas: Joi.array().items(Joi.object().keys({
-                        title: Joi.string().required(),
-                        description: Joi.string().required()
+                        title: Joi.string(),
+                        description: Joi.string()
                     }))
                 }))
             }
