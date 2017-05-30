@@ -72,6 +72,7 @@ module.exports = {
                         let value = {
                             newsId: results.news[0]._id.toString(),
                             nis: e.nis,
+                            name: e.name,
                             kelas: e.kelas,
                             school: e.school,
                             kegiatan: e.kegiatan,
