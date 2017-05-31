@@ -33,7 +33,7 @@ module.exports = {
                 });
             },
             comment: ['user', (results, callback) => {
-                Teacher.findById(results.user.teacher, (err, res) => {
+                Teacher.findById(results.user.teacher.id, (err, res) => {
                     if(!res){
                         const update = {
                             $push: { comments: {

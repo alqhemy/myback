@@ -29,6 +29,7 @@ module.exports = {
             aktifitas: ['news', function (results, callback) {
 
                 Activity.find({ newsId }, (err, results) => {
+                    
                     callback(null, results);
                 });
             }]
