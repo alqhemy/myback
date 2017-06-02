@@ -18,6 +18,7 @@ module.exports = {
     handler(request, reply) {
         const User = request.server.plugins['hapi-mongo-models'].User;
         const usermail = request.payload.email;
+        const deviceid = request.payload.uid
         const register = {
             isActive: true,
             email: request.payload.email,
@@ -27,7 +28,7 @@ module.exports = {
             timeCreated: new Date()
 
         };
-        User.find({ email: usermail }, (err, res) => {
+        User.findOneAndUpdate({ email: usermail },{ uid: deviceid }, (err, res) => {
             if(res.length > 0) {
                 const session = {
                     active: true,
