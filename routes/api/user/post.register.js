@@ -11,7 +11,8 @@ module.exports = {
             payload: {
                 uid: Joi.string().min(3).max(80),
                 email: Joi.string().email(),
-                name: Joi.string()
+                name: Joi.string(),
+                playerid: Joi.string()
             }
         }
     },
@@ -23,6 +24,7 @@ module.exports = {
             email: request.payload.email,
             uid: request.payload.uid,
             name: request.payload.name,
+            playerid: request.payload.playerid,
             teacher: { id: '0' },
             timeCreated: new Date()
 
