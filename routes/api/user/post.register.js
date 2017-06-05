@@ -24,7 +24,6 @@ module.exports = {
             email: request.payload.email,
             uid: request.payload.uid,
             name: request.payload.name,
-            playerid: request.payload.playerid,
             teacher: { id: '0' },
             timeCreated: new Date()
 
