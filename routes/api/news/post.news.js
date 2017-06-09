@@ -54,7 +54,7 @@ module.exports = {
                     topic: request.payload.topic,
                     description: request.payload.description,
                     category: request.payload.category,
-                    publish: request.payload.publish,
+                    publish: true,
                     userId: results.user.email,
                     userName: results.teacher.nama,
                     userTitle: results.teacher.jabatan,
