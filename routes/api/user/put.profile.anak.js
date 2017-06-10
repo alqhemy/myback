@@ -32,7 +32,7 @@ module.exports = {
 
         User.findByIdAndUpdate(id, update, (err, res) => {
             if(err){
-                reply(Boom.badData('data cannot be saved'));
+                reply('{}');
             } else {
                 reply(res);
             }

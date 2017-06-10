@@ -15,8 +15,11 @@ module.exports = {
     handler(request, reply) {
         const User = request.server.plugins['hapi-mongo-models'].User;
         const filter = request.payload.filter;
+        const find = {
+                'child.sekolah': filter.sekolah
+        }
 
-        User.find(filter, {}, (err, res) => {
+        User.find(find, {}, (err, res) => {
             if(err) {
                 return reply(Boom.badRequest('Not found'));
             }
