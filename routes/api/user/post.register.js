@@ -12,7 +12,7 @@ module.exports = {
                 uid: Joi.string().min(3).max(80),
                 email: Joi.string().email(),
                 name: Joi.string(),
-                playerid: Joi.string()
+                token: Joi.string()
             }
         }
     },
@@ -23,6 +23,7 @@ module.exports = {
             isActive: true,
             email: request.payload.email,
             uid: request.payload.uid,
+            playerid: request.payload.token,
             name: request.payload.name,
             teacher: { id: '0' },
             timeCreated: new Date()
