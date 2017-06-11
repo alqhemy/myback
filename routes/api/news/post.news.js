@@ -33,6 +33,7 @@ module.exports = {
         const User = request.server.plugins['hapi-mongo-models'].User;
         const Teacher = request.server.plugins['hapi-mongo-models'].Teacher;
         const Activity = request.server.plugins['hapi-mongo-models'].Activity;
+        const Student = request.server.plugins['hapi-mongo-models'].Student;
         const decode = JWT.verify(request.auth.token, config.authKey);
         const id = decode.id;
 
@@ -65,11 +66,12 @@ module.exports = {
                 });
             }],
             aktifitas: ['news', function (results, callback) {
-                let data = request.payload.aktifitas;
-                if(data.length > 0 ) {
+                const data = request.payload.aktifitas;
+
+                if(data.length > 0) {
                     const insert = [];
-                    data.forEach(function(e) {
-                        let value = {
+                    data.forEach((e) => {
+                        const value = {
                             newsId: results.news[0]._id.toString(),
                             nis: e.nis,
                             name: e.name,
@@ -85,9 +87,29 @@ module.exports = {
                     Activity.insertMany(insert, callback, (err, res) => {
                         callback(null, res);
                     });
-
                 } else {
                     callback(null, []);
+                }
+            }],
+            parent:['aktifitas', function (results, callback) {
+                const topik = results.news[0].topic;
+                const sch = results.news[0].sekolah;
+
+                if(topik === 'Umum') {
+                    User.find({ 'child.sekolah': sch }, { _id: 0, uid: 1 }, (err, ress) => {
+                        callback(null, ress);
+                    });
+                }
+                else {
+                    Student.find({ sekolah: sch, kelas: topik }, { _id: 0, nis: 1 }, (er, res) => {
+                        const data = [];
+                        res.forEach((e) => {
+                            data.push(e.nis);
+                        }, this);
+                        User.find({ child: { $elemMatch: { sekolah: sch, nis: { $in: data } } } }, (err, sekelas) => {
+                            callback(null, sekelas);
+                        });
+                    });
                 }
             }]
         }, (err, results) => {
