@@ -96,7 +96,7 @@ module.exports = {
                 const sch = results.news[0].sekolah;
 
                 if(topik === 'Umum') {
-                    User.find({ 'child.sekolah': sch }, { _id: 0, uid: 1 }, (err, ress) => {
+                    User.find({ 'child.sekolah': sch }, (err, ress) => {
                         callback(null, ress);
                     });
                 }
