@@ -13,6 +13,7 @@ module.exports = {
         auth: 'jwt',
         validate: {
             payload: {
+                set: Joi.string().default('update'),
                 teacher: Joi.object().keys({
                     id: Joi.string(),
                     sekolah: Joi.string()
@@ -24,18 +25,26 @@ module.exports = {
         const decode = JWT.verify(request.auth.token, config.authKey);
         const User = request.server.plugins['hapi-mongo-models'].User;
         const id = decode.id;
-        const update = {
-            $set: {
-                teacher: request.payload.teacher
-            }
+        const status = request.payload.set;
+        if(status === 'delete'){
+            const update = { $unset: { teacher: request.payload.teacher } };
+            User.findByIdAndUpdate(id, update, (err, res) => {
+                if(err){
+                    reply('{}');
+                } else {
+                    reply(res);
+                }
+            });
         }
-
-        User.findByIdAndUpdate(id, update, (err, res) => {
-            if(err){
-                reply(Boom.badData('data cannot be saved'));
-            } else {
-                reply(res);
-            }
-        });
+        else {
+            const ins = { $set: { teacher: request.payload.teacher } };
+            User.findByIdAndUpdate(id, ins, (err, res) => {
+                if(err){
+                    reply('{}');
+                } else {
+                    reply(res);
+                }
+            });
+        }
     }
 };

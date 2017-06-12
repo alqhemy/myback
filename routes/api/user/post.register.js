@@ -39,11 +39,23 @@ module.exports = {
                 const auth = JWT.sign(session, config.authKey);
                 const login = {
                     email: res[0].email,
-                    uid: res[0].uid,
-                    name: res[0].name,
+                    uid: request.payload.uid,
+                    name: request.payload.name,
                     token: auth
                 };
-                reply(login);
+                const update = { $set: {
+                    uid: request.payload.uid,
+                    name: request.payload.name,
+                    playerid: request.payload.token }
+                };
+                const id = res[0]._id.toString();
+                User.findByIdAndUpdate(id, update, (error, result) => {
+                    if(err){
+                        reply({});
+                    } else {
+                        reply(login);
+                    }
+                });
             } else {
                 User.insertOne(register, (er, user) => {
                     if(err) {

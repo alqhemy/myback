@@ -13,6 +13,7 @@ module.exports = {
         auth: 'jwt',
         validate: {
             payload: {
+                set: Joi.string().default('insert'),
                 child: Joi.object().keys({
                     sekolah: Joi.string(),
                     nis: Joi.string()
@@ -24,18 +25,28 @@ module.exports = {
         const decode = JWT.verify(request.auth.token, config.authKey);
         const User = request.server.plugins['hapi-mongo-models'].User;
         const id = decode.id;
-        const update = {
-            $push: {
-                child: request.payload.child
-            }
-        };
+        const status = request.payload.set;
 
-        User.findByIdAndUpdate(id, update, (err, res) => {
-            if(err){
-                reply('{}');
-            } else {
-                reply(res);
-            }
-        });
+        if(status === 'delete'){
+            const update = { $pull: { child: request.payload.child } };
+            User.findByIdAndUpdate(id, update, (err, res) => {
+                if(err){
+                    reply('{}');
+                } else {
+                    reply(res);
+                }
+            });
+        }
+        else {
+            const ins = { $push: { child: request.payload.child } };
+            User.findByIdAndUpdate(id, ins, (err, res) => {
+                if(err){
+                    reply('{}');
+                } else {
+                    reply(res);
+                }
+            });
+        }
+        
     }
 };
