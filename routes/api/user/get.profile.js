@@ -26,38 +26,44 @@ module.exports = {
                 });
             },
             child: ['user', function (results, callback) {
-                const test = results.user.child;
-                const sekolah = [];
-                const nik = [];
-                if(test) {
-                    test.forEach((element) => {
-                        sekolah.push(element.sekolah);
-                        nik.push(element.nis);
-                    }, this);
+                if(results.user != null) {
+                    if(results.user.child) {
+                        const test = results.user.child;
+                        const sekolah = [];
+                        const nik = [];
+                        test.forEach((element) => {
+                            sekolah.push(element.sekolah);
+                            nik.push(element.nis);
+                        }, this);
 
-                    const find = {
-                        sekolah: { $in: sekolah },
-                        nis: { $in: nik }
-                    };
+                        const find = {
+                            sekolah: { $in: sekolah },
+                            nis: { $in: nik }
+                        };
 
-                    Student.find(find, (err, res) => {
-                        callback(null, res);
-                    });
+                        Student.find(find, (err, res) => {
+                            callback(null, res);
+                        });
+                    } else {
+                        callback(null, []);
+                    }
                 } else {
                     callback(null, []);
                 }
             }],
             teacher: ['user', (results, callback) => {
-                if(results.user.teacher) {
-                    
-                    Teacher.findById(results.user.teacher.id, (err, res) => {
-                        if(res == null){
-                            callback(null, []);
-                        }else{
-                            callback(null, [res]);
-                        }
-                        
-                    });
+                if(results.user != null) {
+                    if(results.user.teacher) {
+                        Teacher.findById(results.user.teacher.id, (err, res) => {
+                            if(res == null) {
+                                callback(null, []);
+                            } else {
+                                callback(null, [res]);
+                            }
+                        });
+                    } else {
+                        callback(null, []);
+                    }
                 } else {
                     callback(null, []);
                 }

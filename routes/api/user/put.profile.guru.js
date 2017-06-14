@@ -27,8 +27,8 @@ module.exports = {
         const id = decode.id;
         const status = request.payload.set;
         if(status === 'delete'){
-            const update = { $unset: { teacher: request.payload.teacher } };
-            User.findByIdAndUpdate(id, update, (err, res) => {
+            const update = { $set: { teacher: request.payload.teacher } };
+            User.findByIdAndUpdate(id, { id: '0' }, (err, res) => {
                 if(err){
                     reply('{}');
                 } else {

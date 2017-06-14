@@ -32,15 +32,15 @@ module.exports = {
         User.find({ email: usermail }, (err, res) => {
             if(res.length > 0) {
                 const session = {
-                    active: true,
+                    active: res.isActive,
                     user: res[0].email,
                     id: res[0]._id
                 };
                 const auth = JWT.sign(session, config.authKey);
                 const login = {
                     email: res[0].email,
-                    uid: request.payload.uid,
-                    name: request.payload.name,
+                    uid: res[0].uid,
+                    name: res[0].name,
                     token: auth
                 };
                 const update = { $set: {

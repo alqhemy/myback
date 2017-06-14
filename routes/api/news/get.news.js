@@ -31,11 +31,10 @@ module.exports = {
                     }, this);
                 }
                 if(results.user.teacher) {
-                    const guru = results.user.teacher;
-                    // Teacher.findById(guru.id, (err, res) => {
-                    sekolah.push(guru.sekolah);
-                    // });
-                    // reply(guru);
+                    if(results.user.teacher.id !== '0'){
+                        const guru = results.user.teacher;
+                        sekolah.push(guru.sekolah);
+                    }
                 }
                 callback(null, sekolah);
             }]
@@ -48,13 +47,17 @@ module.exports = {
                     $gte: (new Date((new Date()).getTime() - (90 * 24 * 60 * 60 * 1000)))
                 }
             };
-            News.find(find, (er, res) => {
-                if(err) {
-                    reply(Boom.badData(er));
-                } else {
-                    reply({ news: res });
-                }
-            });
+            if(results.sekolah.length > 0) {
+                News.find(find, (er, res) => {
+                    if(err) {
+                        reply({});
+                    } else {
+                        reply({ news: res });
+                    }
+                });
+            } else {
+                reply({ news: [] });
+            }
         });
     }
 };
