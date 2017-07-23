@@ -3,7 +3,7 @@ const Joi = require('joi');
 const Async = require('async');
 const Jwt = require('jsonwebtoken');
 const config = require('../../../config.js');
-
+const uuid = require('uuid/v1');
 
 module.exports = {
     path: '/web/api/news/activity/{id}/comment',
@@ -16,7 +16,8 @@ module.exports = {
                 id: Joi.string()
             },
             payload: {
-                comment: Joi.string().required()
+                comment: Joi.string().required(),
+                id: Joi.string().default('0')
             }
         }
     },
@@ -37,8 +38,10 @@ module.exports = {
                     if(!res){
                         const update = {
                             $push: { comments: {
+                                id: uuid(),
                                 comment: request.payload.comment,
                                 user: results.user.name,
+                                uid: results.user.email,
                                 title: 'Orang Tua',
                                 timeCreated: new Date()
                             } }
@@ -47,8 +50,10 @@ module.exports = {
                     } else {
                         const update = {
                             $push: { comments: {
+                                id: uuid(),
                                 comment: request.payload.comment,
-                                user: res.nama,
+                                user: results.user.name,
+                                uid: results.user.email,
                                 title: res.jabatan,
                                 timeCreated: new Date()
                             } }
@@ -58,9 +63,25 @@ module.exports = {
                 });
             }]
         }, (err, results) => {
-            Activity.findByIdAndUpdate(request.params.id, results.comment, (er, res) => {
-                reply(res);
-            });
+            if(request.payload.id === '0') {
+                Activity.findByIdAndUpdate(request.params.id, results.comment, (er, res) => {
+                    reply(res);
+                });
+            } else {
+                Activity.findById(request.params.id, (e, ress) => {
+                    // reply(ress);
+                    if(ress.comments != null) {
+                        const comments = ress.comments;
+                        comments.forEach((element) => {
+                            if(element.id === request.payload.id) {
+                                Activity.findByIdAndUpdate(request.params.id, { $pull: { comments: element } }, (er, respull) => {
+                                    reply(respull);
+                                });
+                            }
+                        }, this);
+                    }
+                });
+            }
             // reply(results.comment);
         });
     }
